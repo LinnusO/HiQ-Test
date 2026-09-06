@@ -22,7 +22,7 @@ all: RobotApp
 
 build-tests: RobotAppTest CommandParserTest
 
-run-tests: build-test
+run-tests: build-tests
 	./RobotAppTest
 	./CommandParserTest
 

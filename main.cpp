@@ -23,7 +23,7 @@ int main()
   constexpr std::int32_t tabletopHeight = 5;
 
   robot::Robot robot{};
-  tabletop::Tabletop tabletop{tabletopWidth, tabletopHeight};
+  constexpr tabletop::Tabletop tabletop{tabletopWidth, tabletopHeight};
 
   bool foundFirstValidCommand = false;
   for (std::string line; std::getline(file, line);) 

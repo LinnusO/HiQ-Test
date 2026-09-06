@@ -47,9 +47,10 @@ inline bool parsePlaceCommand(std::string const& a_placeCommandString, robot::Po
         return false;
     }
 
-    if(placeCommandVector[0] != "PLACE")
+    std::string const& command = placeCommandVector[0];
+    if(command != "PLACE")
     {
-        std::cerr << "Command " << placeCommandVector[0] << " is not valid!" << std::endl;
+        std::cerr << "Command " << command << " is not valid!" << std::endl;
         return false;
     }
 
@@ -58,7 +59,7 @@ inline bool parsePlaceCommand(std::string const& a_placeCommandString, robot::Po
     {
         xPos = std::stoi(placeCommandVector[1]);
     }
-    catch(std::invalid_argument const& e)
+    catch(std::exception const& e)
     {
         std::cerr << "X position " << xPos << " is not valid!" << std::endl;
         return false;
@@ -71,7 +72,7 @@ inline bool parsePlaceCommand(std::string const& a_placeCommandString, robot::Po
     {
         yPos = std::stoi(placeCommandVector[2]);
     }
-    catch(std::invalid_argument const& e)
+    catch(std::exception const& e)
     {
         std::cerr << "Y position " << " is not valid!" << std::endl;
         return false;
@@ -80,11 +81,11 @@ inline bool parsePlaceCommand(std::string const& a_placeCommandString, robot::Po
     r_position.yPos = yPos;
 
     // Check if direction is valid
-    auto const& it = placeCommandVector[3];
-    auto const& dir = directionMapping.find(it);
+    std::string const& direction = placeCommandVector[3];
+    auto dir = directionMapping.find(direction);
     if(dir == directionMapping.end())
     {
-        std::cerr << "Direction " << it << "is invalid!" << std::endl;
+        std::cerr << "Direction " << direction << "is invalid!" << std::endl;
         return false;
     }
 

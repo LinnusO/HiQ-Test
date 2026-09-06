@@ -62,16 +62,18 @@ struct Position
 class Robot
 {
 public:
+
+    Robot();
     
     bool place(Position const& a_position, tabletop::Tabletop const& a_tabletop);
     void rotateLeft();
     void rotateRight();
     bool move(tabletop::Tabletop const& a_tabletop);
     void report();
-    inline Position getPosition() const { return m_position; }
+    constexpr Position getPosition() const { return m_position; }
 
 private:
-    Position m_position;
+    Position m_position{};
 };
     
 } // namespace robot

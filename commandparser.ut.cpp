@@ -15,7 +15,7 @@ void checkPosDir(robot::Robot const& a_robot, std::int32_t const& a_xPos, std::i
 
 void testParsePlaceCommandValid(void)
 {
-    robot::Position pos;
+    robot::Position pos{};
 
     TEST_CHECK(commandparser::parsePlaceCommand("PLACE,0,0,NORTH", pos));
     TEST_CHECK(pos.xPos == 0);
@@ -40,7 +40,7 @@ void testParsePlaceCommandValid(void)
 
 void testParsePlaceCommandTooFewTokens(void)
 {
-    robot::Position pos;
+    robot::Position pos{};
 
     TEST_CHECK(!commandparser::parsePlaceCommand("PLACE", pos));
     TEST_CHECK(!commandparser::parsePlaceCommand("PLACE,0", pos));
@@ -49,21 +49,21 @@ void testParsePlaceCommandTooFewTokens(void)
 
 void testParsePlaceCommandTooManyTokens(void)
 {
-    robot::Position pos;
+    robot::Position pos{};
 
     TEST_CHECK(!commandparser::parsePlaceCommand("PLACE,0,0,NORTH,WEST", pos));
 }
 
 void testParsePlaceCommandEmptyString(void)
 {
-    robot::Position pos;
+    robot::Position pos{};
 
     TEST_CHECK(!commandparser::parsePlaceCommand("", pos));
 }
 
 void testParsePlaceCommandNotPlaceCommand(void)
 {
-    robot::Position pos;
+    robot::Position pos{};
 
     TEST_CHECK(!commandparser::parsePlaceCommand("MOVE,0,0,NORTH", pos));
     TEST_CHECK(!commandparser::parsePlaceCommand("PLAY,0,0,NORTH", pos));
@@ -71,7 +71,7 @@ void testParsePlaceCommandNotPlaceCommand(void)
 
 void testParsePlaceCommandInvalidCoordinates(void)
 {
-    robot::Position pos;
+    robot::Position pos{};
 
     TEST_CHECK(!commandparser::parsePlaceCommand("PLACE,A,0,NORTH", pos));
     TEST_CHECK(!commandparser::parsePlaceCommand("PLACE,0,B,NORTH", pos));
@@ -79,7 +79,7 @@ void testParsePlaceCommandInvalidCoordinates(void)
 
 void testParsePlaceCommandInvalidDirection(void)
 {
-    robot::Position pos;
+    robot::Position pos{};
 
     TEST_CHECK(!commandparser::parsePlaceCommand("PLACE,0,0,UP", pos));
     TEST_CHECK(!commandparser::parsePlaceCommand("PLACE,0,0,North", pos));
@@ -88,7 +88,7 @@ void testParsePlaceCommandInvalidDirection(void)
 
 void testParsePlaceCommandNegativeCoordinates(void)
 {
-    robot::Position pos;
+    robot::Position pos{};
 
     TEST_CHECK(commandparser::parsePlaceCommand("PLACE,-1,0,NORTH", pos));
     TEST_CHECK(pos.xPos == -1);
@@ -141,6 +141,7 @@ void testHandlePlaceCommandRejectsMalformedInput(void)
     TEST_CHECK(!commandparser::handlePlaceCommand("PLACE", robot, c_tabletop));
     TEST_CHECK(!commandparser::handlePlaceCommand("PLACE,0", robot, c_tabletop));
     TEST_CHECK(!commandparser::handlePlaceCommand("MOVE", robot, c_tabletop));
+    
     checkPosDir(robot, 2, 2, robot::Direction::NORTH);
 }
 

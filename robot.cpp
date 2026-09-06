@@ -1,9 +1,13 @@
 #include "robot.h"
 #include "tabletop.h"
+
 #include <iostream>
 
 namespace robot
 {
+Robot::Robot() : m_position{}
+{}
+
 bool Robot::place(Position const& a_position, tabletop::Tabletop const& a_tabletop)
 {
     // Verify that the x position is valid
@@ -14,6 +18,12 @@ bool Robot::place(Position const& a_position, tabletop::Tabletop const& a_tablet
 
     // Verify that the y position is valid
     if(a_position.yPos < 0 || a_position.yPos > a_tabletop.height - 1)
+    {
+        return false;
+    }
+
+    // Verify that direction is valid
+    if(a_position.direction >= Direction::MAX_NUM)
     {
         return false;
     }
