@@ -72,4 +72,4 @@ Testing/
 *.vscode
 
 # App
-*RobotApp*
+RobotApp*
