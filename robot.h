@@ -68,6 +68,7 @@ public:
     void rotateRight();
     bool move(tabletop::Tabletop const& a_tabletop);
     void report();
+    inline Position getPosition() const { return m_position; }
 
 private:
     Position m_position;

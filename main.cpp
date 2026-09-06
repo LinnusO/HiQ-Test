@@ -1,6 +1,7 @@
 #include "robot.h"
 #include "tabletop.h"
 
+#include <algorithm>
 #include <cstdint>
 #include <fstream>
 #include <iostream>
@@ -12,6 +13,8 @@
 
 namespace 
 {
+
+// Set for all valid commands, used for quick verification
 std::unordered_set<std::string> commands 
 { 
     "PLACE",
@@ -21,6 +24,7 @@ std::unordered_set<std::string> commands
     "REPORT" 
 };
 
+// Maps string to robot direction enum
 std::unordered_map<std::string, robot::Direction> directionMapping
 {
     {"NORTH", robot::Direction::NORTH},
@@ -30,7 +34,7 @@ std::unordered_map<std::string, robot::Direction> directionMapping
 };
 
 // Helper functions
-bool parsePlaceCommand(std::string const& a_placeCommandString, robot::Position& r_placeCommand)
+bool parsePlaceCommand(std::string const& a_placeCommandString, robot::Position& r_position)
 {
     std::stringstream ss{a_placeCommandString};
     std::vector<std::string> placeCommand;
@@ -42,7 +46,7 @@ bool parsePlaceCommand(std::string const& a_placeCommandString, robot::Position&
 
     if(placeCommand[0] != "PLACE")
     {
-        std::cerr << "Command is not valid!" << std::endl;
+        std::cerr << "Command " << placeCommand[0] << " is not valid!" << std::endl;
         return false;
     }
 
@@ -53,11 +57,11 @@ bool parsePlaceCommand(std::string const& a_placeCommandString, robot::Position&
     }
     catch(std::invalid_argument const& e)
     {
-        std::cerr << "X position is not valid!" << std::endl;
+        std::cerr << "X position " << xPos << " is not valid!" << std::endl;
         return false;
     }
 
-    r_placeCommand.xPos = xPos;
+    r_position.xPos = xPos;
 
     std::int32_t yPos{};
     try
@@ -66,11 +70,11 @@ bool parsePlaceCommand(std::string const& a_placeCommandString, robot::Position&
     }
     catch(std::invalid_argument const& e)
     {
-        std::cerr << "Y position is not valid!" << std::endl;
+        std::cerr << "Y position " << " is not valid!" << std::endl;
         return false;
     }
 
-    r_placeCommand.yPos = yPos;
+    r_position.yPos = yPos;
 
     // Check if direction is valid
     auto it = placeCommand[3];
@@ -80,7 +84,7 @@ bool parsePlaceCommand(std::string const& a_placeCommandString, robot::Position&
         return false;
     }
 
-    r_placeCommand.direction = directionMapping[it];
+    r_position.direction = directionMapping[it];
 
     return true;
 }
@@ -117,6 +121,9 @@ int main()
   bool foundFirstValidCommand = false;
   for (std::string line; std::getline(file, line);) 
   {
+    // Remove whitespaces from the command
+    line.erase(std::remove(line.begin(), line.end(), ' '), line.end()); 
+    
     if (!foundFirstValidCommand) 
     {
         if(line[0] != 'P')
@@ -138,7 +145,7 @@ int main()
         // Check if command is valid
         if(commands.find(line) == commands.end())
         {
-            std::cerr << "Command is not valid!" << std::endl;
+            std::cerr << "Command " << line << " is not valid!" << std::endl;
             continue;
         }
 

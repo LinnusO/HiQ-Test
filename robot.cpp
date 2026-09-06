@@ -7,13 +7,13 @@ namespace robot
 bool Robot::place(Position const& a_position, tabletop::Tabletop const& a_tabletop)
 {
     // Verify that the x position is valid
-    if(a_position.xPos < 0 || a_position.xPos > a_tabletop.width)
+    if(a_position.xPos < 0 || a_position.xPos > a_tabletop.width - 1)
     {
         return false;
     }
 
     // Verify that the y position is valid
-    if(a_position.yPos < 0 || a_position.yPos > a_tabletop.height)
+    if(a_position.yPos < 0 || a_position.yPos > a_tabletop.height - 1)
     {
         return false;
     }
@@ -55,7 +55,7 @@ bool Robot::move(tabletop::Tabletop const& a_tabletop)
         case Direction::NORTH:
         {
             auto newPos = m_position.yPos + 1;
-            if(newPos > a_tabletop.height)
+            if(newPos > a_tabletop.height - 1)
             {
                 return false;
             }
@@ -66,7 +66,7 @@ bool Robot::move(tabletop::Tabletop const& a_tabletop)
         case Direction::EAST:
         {
             auto newPos = m_position.xPos + 1;
-            if(newPos > a_tabletop.width)
+            if(newPos > a_tabletop.width - 1)
             {
                 return false;
             }
