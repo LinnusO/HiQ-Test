@@ -71,7 +71,6 @@ Testing/
 *.vscode
 
 # App
-RobotApp
 RobotApp*
 CommandParserTest
 
